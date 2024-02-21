@@ -83,6 +83,24 @@ public class UserOperations {
 		return userBankAcctMap;
 		
 	}
+	public void deleteBankAccount(int userId, String accountNumber) {
+	    for (User user : users) {
+	        if (user.getUserId() == userId) {
+	            List<BankAccount> userBankAccounts = user.getBaList();
+	            for (BankAccount account : userBankAccounts) {
+	                if (account.getBankAcctNumber().equals(accountNumber)) {
+	                    userBankAccounts.remove(account);
+	                    System.out.println("Bank account deleted successfully.");
+	                    return;
+	                }
+	            }
+	            System.out.println("Bank account not found for the user.");
+	            return;
+	        }
+	    }
+	    System.out.println("User not found.");
+	}
+
 	
 
 }

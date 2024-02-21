@@ -14,6 +14,7 @@ public class RunPaymentsApp extends WalletOperations
 
 //	static int x=10;
 //	public static User[] usersList = new User[5];
+
 	public static List<User> usersList =new ArrayList<User>();
 	public static List<BankAccount> bankAcctList = new ArrayList<BankAccount>();
 	public static int currUserId = -1;
@@ -64,6 +65,7 @@ public class RunPaymentsApp extends WalletOperations
 			if(optStr.equalsIgnoreCase("1")) {
 				registerUser();
 			}else if(optStr.equalsIgnoreCase("2")) {
+			
 				if(!loginUser()) {
 					break;
 				}
@@ -90,10 +92,14 @@ public class RunPaymentsApp extends WalletOperations
 			}
 			else if(optStr.equalsIgnoreCase("8"))
 			{
-				if(currUserId != -1) {
-					System.out.println(bankAcctList);
-					}
-				
+				if (currUserId != -1) {
+			        Scanner scanner = new Scanner(System.in);
+			        System.out.println("Enter the account number to delete:");
+			        String accountNumber = scanner.next();
+			        ops.deleteBankAccount(currUserId, accountNumber);
+			    } else {
+			        System.out.println("No user logged in.");
+			    }
 			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				break;
@@ -220,18 +226,15 @@ public class RunPaymentsApp extends WalletOperations
 		w.setUserId(currUserId);
 		System.out.println("Enter amount to add:");
 		int amount=sc.nextInt();
-		int FinalBalance=0;
+	
 		if(userid==w.getUserId())
 		{
-			
-	        int b=AddMoney(amount);
-			
-			System.out.println("Money added to wallet : "+b);
-			
-			
-	
-		}
-		
-		
+			 
+			 int newBalance = AddMoney(amount);
+			    
+			    System.out.println("Available money in wallet: " + newBalance);
+			}
 	}
+	
+	
 }

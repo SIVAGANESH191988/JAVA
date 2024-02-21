@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class PaymentsFileOps {
-	public final String usersFilePath = "G:\\8577 team force\\Payments_CLI_USers.csv";
+	public final String usersFilePath = "C:\\Users\\siva ganesh\\Downloads\\files\\Payments_CLI_USers.csv";
 	
 	public void writeUserToFile(User u) throws IOException {
 		
@@ -18,7 +18,7 @@ public class PaymentsFileOps {
 		FileWriter fw = new FileWriter(userFile,true);
 		fw.write(u.userToFileRecord());
 		
-		fw.flush();
+		
 		String a="";
 		List<String> los=new ArrayList<String>();
 		FileReader f2=new FileReader(userFile);
@@ -27,10 +27,7 @@ public class PaymentsFileOps {
 		{
 			los.add(a);
 		}
-		for(String i:los)
-		{
-			System.out.println(i);
-		}
+		fw.flush();
 		fw.close();
 	}
 
