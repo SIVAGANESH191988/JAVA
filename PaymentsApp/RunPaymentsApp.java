@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 
-public class RunPaymentsApp extends WalletOperations
+public class RunPaymentsApp 
 {
 	//Driver class
 
@@ -18,7 +18,8 @@ public class RunPaymentsApp extends WalletOperations
 	public static List<User> usersList =new ArrayList<User>();
 	public static List<BankAccount> bankAcctList = new ArrayList<BankAccount>();
 	public static int currUserId = -1;
-
+    public static Wallet w=new Wallet();
+    static double FinalBalance=0;
 	public static void main(String[] args) {
 		
 		int selectedOption=0;		
@@ -87,7 +88,7 @@ public class RunPaymentsApp extends WalletOperations
 			else if(optStr.equalsIgnoreCase("7"))
 			{
 				if(currUserId != -1) {
-				walletTransactions(currUserId);
+				addMoneyToWallet();
 				}
 			}
 			else if(optStr.equalsIgnoreCase("8"))
@@ -102,7 +103,8 @@ public class RunPaymentsApp extends WalletOperations
 			    }
 			}
 			else if(optStr.equalsIgnoreCase("-1")) {
-				break;
+				currUserId=-1;
+				w.setCurrntBal(0);
 			}else {
 				
 			}
@@ -217,24 +219,29 @@ public class RunPaymentsApp extends WalletOperations
 			
 		}
 	}
+private static void addMoneyToWallet() {
 	
-	public static void walletTransactions(int userid)
-	{
-		Scanner sc=new Scanner(System.in);
-		Wallet w=new Wallet();
+		if(currUserId!=-1) {
 		
-		w.setUserId(currUserId);
-		System.out.println("Enter amount to add:");
-		int amount=sc.nextInt();
-	
-		if(userid==w.getUserId())
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter amount : ");
+		double amount = sc.nextDouble();
+        w.setLimit(50000.00);
+		if(amount+Wallet.getCurrntBal()<w.getLimit())
 		{
-			 
-			 int newBalance = AddMoney(amount);
-			    
-			    System.out.println("Available money in wallet: " + newBalance);
-			}
-	}
+			
+			w.setCurrntBal(w.getCurrntBal()+amount);
 	
+			System.out.println("your current balance is "+w.getCurrntBal());
+		}
+		else {
+			System.out.println("Maximum wallet amount is 50,000 ");
+		}
+		
+		 
+	}
+		
+	}
+
 	
 }
