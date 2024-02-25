@@ -1,27 +1,28 @@
 
 
 public class Wallet {
-    private static int defaultBal;
+    private static double currntBal;
+
 	private int userId;
-	private int limit;
-	public int getLimit() {
-		return limit;
+	private double limit;
+	public static double getCurrntBal() {
+		return currntBal;
 	}
-	public void setLimit(int limit) {
-		this.limit = limit;
+	public static void setCurrntBal(double currntBal) {
+		Wallet.currntBal = currntBal;
 	}
-	public static int getDefaultBal() {
-		return defaultBal;
-	}
-	public void setDefaultBal(int defaultBal) {
-		Wallet.defaultBal = defaultBal;
-	}
+
 	public int getUserId() {
 		return userId;
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
+	public double getLimit() {
+		return limit;
+	}
+	public void setLimit(double limit) {
+		this.limit = limit;
+	}
 	
 }
