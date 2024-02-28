@@ -1,58 +1,16 @@
-import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public class ThreadExample
+  {
+public static void main(String[]args) throws InterruptedException
+{
+	
 
-        System.out.println("Enter an email address:");
-        String email = scanner.nextLine();
+	Thread2 obj1=new Thread2();
+	Thread t2=new Thread(obj1);
+	t2.start();
+	Thread1 obj=new Thread1();
+	Thread t1=new Thread(obj);
+	t1.start();
 
-        System.out.println(email +"is" +": " + isEmailValid(email));
-
-     
-    }
-
-    public static boolean isEmailValid(String email) {
-        String[] s1 = email.split("@");
-
-        if (s1.length != 2)
-        {
-            return false;
-        }
-
-        if (s1[0].length() == 0 || s1[1].length() < 3)
-        {
-            return false;
-        }
-
-        if (!s1[1].contains("."))
-        {
-            return false;
-        }
-
-        if (!Character.isLetter(s1[0].charAt(0)))
-        {
-            return false;
-        }
-         if (email.contains("..") || email.contains(".@") || email.contains("@.") || email.contains("._."))
-        {
-            return false;
-        }
-
-        if (email.endsWith("."))
-        {
-            return false;
-        }
-
-        for (char c : email.toCharArray()) {
-            if (!Character.isLetterOrDigit(c) && c != '_' && c != '.' && c != '@')
-            {
-                return false;
-            }
-        }
-
-       
-
-        return true;
-    }
+}
 }
