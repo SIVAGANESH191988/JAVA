@@ -9,6 +9,7 @@ public class UserOperations {
 	
 	List<User> users = null;
 	List<BankAccount> bankAcctList = null;
+	Map<Integer,Wallet>WalletList=RunPaymentsApp.ListWallet;
 	
 	public UserOperations() {
 		users= RunPaymentsApp.usersList;
@@ -100,7 +101,16 @@ public class UserOperations {
 	    }
 	    System.out.println("User not found.");
 	}
-
-	
-
+	public void AddMoneyToWallet(double Amount)
+	{
+		if(WalletList.containsKey(RunPaymentsApp.currUserId)) {
+			WalletList.get(RunPaymentsApp.currUserId).setCurrntBal(WalletList.get(RunPaymentsApp.currUserId).getCurrntBal()+Amount);
+			System.out.println("Your Current Balance in your wallet : "+WalletList.get(RunPaymentsApp.currUserId).getCurrntBal());
+			
+		}
+	}
+	public double checkWalletBalance(){
+		System.out.println("Your Current Balance in Your Wallet : ");
+		return WalletList.get(RunPaymentsApp.currUserId ).getCurrntBal();
+	}
 }
