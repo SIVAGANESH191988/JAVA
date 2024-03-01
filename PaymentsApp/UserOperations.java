@@ -3,8 +3,7 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
+import java.util.Scanner;
 public class UserOperations {
 	
 	List<User> users = null;
@@ -113,4 +112,67 @@ public class UserOperations {
 		System.out.println("Your Current Balance in Your Wallet : ");
 		return WalletList.get(RunPaymentsApp.currUserId ).getCurrntBal();
 	}
+	public void DoTransaction()
+	{
+		Scanner sc = new Scanner(System.in);
+		Transaction txn = new Transaction();
+		Wallet w = new Wallet();
+        User u = new User();
+        System.out.println("Select The Option to Send Money From Which Account: ");
+        try
+        {
+        	String srcType=sc.next();
+        	TransactionSource srccType=TransactionSource.valueOf(srcType);
+        	txn.setTrnxsrc(srccType);
+        }
+        catch (IllegalArgumentException e)
+        {
+        	e.printStackTrace();
+        }
+        if(txn.getTrnxsrc()==TransactionSource.CASH)
+        {
+        	double amt=sc.nextDouble();
+        	long phno=sc.nextLong();
+        	for(User user:users)
+        	{
+        		if(user.getPhoneNum()==phno)
+        		{
+        			w.setCurrntBal(w.getCurrntBal()+amt);
+        			System.out.println(w.getCurrntBal());
+        			
+        		}
+        	}
+        }
+
+        else if(txn.getTrnxsrc()==TransactionSource.WALLET)
+        	
+        	
+        {
+        	System.out.println("enter destination type");
+        	try
+        	{
+        		String desType=sc.next();
+        		TransactionDestination des=TransactionDestination.valueOf(desType);
+        		txn.setTrnxDest(des);
+        	}
+        	catch(IllegalArgumentException e)
+        	{
+        		e.printStackTrace();
+        	}
+        	if(txn.getTrnxDest()==TransactionDestination.WALLET)
+        		
+        	{
+        		double amt=sc.nextDouble();
+        		long phno=sc.nextLong();
+        		for(User user:users)
+        		{
+        			if(user.getPhoneNum()==phno)
+        			{
+        				WalletList.get(RunPaymentsApp.currUserId).setCurrntBal(WalletList.get(RunPaymentsApp.currUserId).getCurrntBal()+amt);
+        			}
+        		}
+        	}
+        }
+       
+}
 }

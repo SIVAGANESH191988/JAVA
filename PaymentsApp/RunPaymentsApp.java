@@ -20,7 +20,7 @@ public class RunPaymentsApp
 	public static List<BankAccount> bankAcctList = new ArrayList<BankAccount>();
 	public static int currUserId = -1;
  
-    static double FinalBalance=0;
+   
     public static Map<Integer,Wallet> ListWallet=new HashMap<Integer,Wallet>();
 	public static void main(String[] args) {
 		
@@ -119,6 +119,10 @@ public class RunPaymentsApp
 					System.out.println("Please Log in to Check Balance In Wallet");
 				}
 			}
+			else if(optStr.equalsIgnoreCase("10")) {
+				UserOperations u1=new UserOperations();
+				u1.DoTransaction();
+			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				currUserId=-1;
 				
@@ -188,6 +192,8 @@ public class RunPaymentsApp
 	}
 	
 	public static void addBankAccount() {
+
+		BankAccount ba = new BankAccount();
 		Scanner opt = new Scanner(System.in);
 		
 		System.out.println("Enter Bank Account Number:");
@@ -201,15 +207,23 @@ public class RunPaymentsApp
 		System.out.println("CU: CURRENT");
 		System.out.println("LN: LOAN");
 		System.out.println("SL: SALARY");
-		String acctType = opt.next();
-		
+		try {
+			String Acty = opt.next();
+			AcctType Accty = AcctType.valueOf(Acty);
+			ba.setBankAcctAcctType(Accty);
+			}catch(IllegalArgumentException e) {
+				System.out.println("Please Select the Correct Acctype : ");
+				e.printStackTrace();
+			}
+    
 		System.out.println("Account PIN:");
+//		
+		
 		String acctPin = opt.next();
 		
-		BankAccount ba = new BankAccount();
 		ba.setBankAcctNumber(acctNum);
 		ba.setBankAcctIFSC(ifscCode);
-		ba.setBankAcctAcctType(AcctType.SAVINGS);
+		
 		ba.setBankAcctPin(acctPin);
 		ba.setUserId(currUserId);
 		
