@@ -1,15 +1,15 @@
 
 
 public class Wallet {
-    private static double currntBal;
+    private double currntBal;
 
 	private int userId;
 	private double limit;
-	public static double getCurrntBal() {
+	public double getCurrntBal() {
 		return currntBal;
 	}
-	public static void setCurrntBal(double currntBal) {
-		Wallet.currntBal = currntBal;
+	public void setCurrntBal(double currntBal) {
+		this.currntBal = currntBal;
 	}
 
 	public int getUserId() {

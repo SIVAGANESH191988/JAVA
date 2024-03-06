@@ -1,6 +1,7 @@
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,8 +19,9 @@ public class RunPaymentsApp
 	public static List<User> usersList =new ArrayList<User>();
 	public static List<BankAccount> bankAcctList = new ArrayList<BankAccount>();
 	public static int currUserId = -1;
-    public static Wallet w=new Wallet();
-    static double FinalBalance=0;
+ 
+   
+    public static Map<Integer,Wallet> ListWallet=new HashMap<Integer,Wallet>();
 	public static void main(String[] args) {
 		
 		int selectedOption=0;		
@@ -36,6 +38,8 @@ public class RunPaymentsApp
 			System.out.println("6. List All User Bank Accounts");
 			System.out.println("7. Add Money To Wallet");
 			System.out.println("8. Delet the BankAccount");
+			System.out.println("9. Check Wallet Balance");
+			System.out.println("10. Do a Transaction");
 			System.out.println("-1. Quit/ Logout");
 			System.out.println("Choose an Option:");
 			
@@ -66,11 +70,17 @@ public class RunPaymentsApp
 			if(optStr.equalsIgnoreCase("1")) {
 				registerUser();
 			}else if(optStr.equalsIgnoreCase("2")) {
-			
+			if(currUserId!=-1)
+			{
+				System.out.println("logout current user");
+			}else
+			{
 				if(!loginUser()) {
 					break;
 				}
-			}else if(optStr.equalsIgnoreCase("3")) {
+			}
+			}
+			else if(optStr.equalsIgnoreCase("3")) {
 				if(validateCurrentUser()) {
 					addBankAccount();
 				}
@@ -102,9 +112,20 @@ public class RunPaymentsApp
 			        System.out.println("No user logged in.");
 			    }
 			}
+			else if(optStr.equalsIgnoreCase("9")) {
+				if( currUserId!= -1) {
+					System.out.println(ops.checkWalletBalance());
+				}else {
+					System.out.println("Please Log in to Check Balance In Wallet");
+				}
+			}
+			else if(optStr.equalsIgnoreCase("10")) {
+				UserOperations u1=new UserOperations();
+				u1.DoTransaction();
+			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				currUserId=-1;
-				w.setCurrntBal(0);
+				
 			}else {
 				
 			}
@@ -130,7 +151,7 @@ public class RunPaymentsApp
 		System.out.println("Password:");
 		String password = opt.next();
 		
-		User u;
+		User u=null;
 		try {
 			
 			u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
@@ -139,6 +160,9 @@ public class RunPaymentsApp
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Wallet w=new Wallet();
+		int UserId=u.getUserId();
+		ListWallet.put(UserId, w);
 	}
 	
 	public static boolean loginUser() {
@@ -168,6 +192,8 @@ public class RunPaymentsApp
 	}
 	
 	public static void addBankAccount() {
+
+		BankAccount ba = new BankAccount();
 		Scanner opt = new Scanner(System.in);
 		
 		System.out.println("Enter Bank Account Number:");
@@ -181,15 +207,23 @@ public class RunPaymentsApp
 		System.out.println("CU: CURRENT");
 		System.out.println("LN: LOAN");
 		System.out.println("SL: SALARY");
-		String acctType = opt.next();
-		
+		try {
+			String Acty = opt.next();
+			AcctType Accty = AcctType.valueOf(Acty);
+			ba.setBankAcctAcctType(Accty);
+			}catch(IllegalArgumentException e) {
+				System.out.println("Please Select the Correct Acctype : ");
+				e.printStackTrace();
+			}
+    
 		System.out.println("Account PIN:");
+//		
+		
 		String acctPin = opt.next();
 		
-		BankAccount ba = new BankAccount();
 		ba.setBankAcctNumber(acctNum);
 		ba.setBankAcctIFSC(ifscCode);
-		ba.setBankAcctAcctType(AcctType.SAVINGS);
+		
 		ba.setBankAcctPin(acctPin);
 		ba.setUserId(currUserId);
 		
@@ -221,18 +255,19 @@ public class RunPaymentsApp
 	}
 private static void addMoneyToWallet() {
 	
-		if(currUserId!=-1) {
 		
+	Wallet w=new Wallet();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter amount : ");
 		double amount = sc.nextDouble();
         w.setLimit(50000.00);
-		if(amount+Wallet.getCurrntBal()<w.getLimit())
+		if(amount+w.getCurrntBal()<w.getLimit())
 		{
 			
-			w.setCurrntBal(w.getCurrntBal()+amount);
+			UserOperations ops = new UserOperations();
+			ops.AddMoneyToWallet(amount);
 	
-			System.out.println("your current balance is "+w.getCurrntBal());
+			
 		}
 		else {
 			System.out.println("Maximum wallet amount is 50,000 ");
@@ -244,4 +279,3 @@ private static void addMoneyToWallet() {
 	}
 
 	
-}
