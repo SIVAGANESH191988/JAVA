@@ -1,3 +1,5 @@
+package paymentsapp;
+
 
 
 import java.util.HashMap;
@@ -8,8 +10,7 @@ public class UserOperations {
 	
 	List<User> users = null;
 	List<BankAccount> bankAcctList = null;
-	Map<Integer,Wallet>WalletList=RunPaymentsApp.ListWallet;
-	
+	  Map<Integer,Wallet> walletList = RunPaymentsApp.walletList;
 	public UserOperations() {
 		users= RunPaymentsApp.usersList;
 		bankAcctList = RunPaymentsApp.bankAcctList;
@@ -29,6 +30,11 @@ public class UserOperations {
 		}
 		
 		u.setUserId((int)(Math.random()*1000)+100);
+		 Wallet wallet = new Wallet();
+		    wallet.setUserId(u.getUserId()); // Associate wallet with the user
+		    
+		    u.setWallet(wallet);
+
 		PaymentsFileOps pfOps = new PaymentsFileOps();
 		pfOps.writeUserToFile(u);
 		return u;
@@ -100,79 +106,123 @@ public class UserOperations {
 	    }
 	    System.out.println("User not found.");
 	}
-	public void AddMoneyToWallet(double Amount)
-	{
-		if(WalletList.containsKey(RunPaymentsApp.currUserId)) {
-			WalletList.get(RunPaymentsApp.currUserId).setCurrntBal(WalletList.get(RunPaymentsApp.currUserId).getCurrntBal()+Amount);
-			System.out.println("Your Current Balance in your wallet : "+WalletList.get(RunPaymentsApp.currUserId).getCurrntBal());
-			
-		}
+
+	public void addMoneyToWallet( double amount) {
+		if(walletList.containsKey(RunPaymentsApp.currUserId )) {
+	        walletList.get(RunPaymentsApp.currUserId ).setCurrntBal(walletList.get(RunPaymentsApp.currUserId ).getCurrntBal()+amount);
+	        System.out.println(walletList.get(RunPaymentsApp.currUserId ).getCurrntBal());
+			 
+		} 
 	}
+
 	public double checkWalletBalance(){
-		System.out.println("Your Current Balance in Your Wallet : ");
-		return WalletList.get(RunPaymentsApp.currUserId ).getCurrntBal();
+		return walletList.get(RunPaymentsApp.currUserId ).getCurrntBal();
 	}
-	public void DoTransaction()
+
+	public void DoTransaction() {
+	    Scanner sc = new Scanner(System.in);
+	    Transaction txn = new Transaction();
+	    
+	    // Prompt user to select the source of the transaction
+	    System.out.println("Select the option to send money from which account (CASH/WALLET): ");
+	    try {
+	        String srcType = sc.next();
+	        TransactionSource src = TransactionSource.valueOf(srcType);
+	        txn.setTrnxsrc(src);
+	    } catch (IllegalArgumentException e) {
+	        e.printStackTrace();
+	        return;
+	    }
+	
+	if(txn.getTrnxsrc() == TransactionSource.CASH)
 	{
-		Scanner sc = new Scanner(System.in);
-		Transaction txn = new Transaction();
-		Wallet w = new Wallet();
-        User u = new User();
-        System.out.println("Select The Option to Send Money From Which Account: ");
-        try
-        {
-        	String srcType=sc.next();
-        	TransactionSource srccType=TransactionSource.valueOf(srcType);
-        	txn.setTrnxsrc(srccType);
-        }
-        catch (IllegalArgumentException e)
-        {
-        	e.printStackTrace();
-        }
-        if(txn.getTrnxsrc()==TransactionSource.CASH)
-        {
-        	double amt=sc.nextDouble();
-        	long phno=sc.nextLong();
-        	for(User user:users)
-        	{
-        		if(user.getPhoneNum()==phno)
-        		{
-        			w.setCurrntBal(w.getCurrntBal()+amt);
-        			System.out.println(w.getCurrntBal());
-        			
-        		}
-        	}
+		 System.out.println("Enter amount:");
+         double amount = sc.nextDouble();
+         System.out.println("Enter recipient's user ID:");
+         int recipientId = sc.nextInt();
+         for (User user : users) {
+             if (user.getUserId() == recipientId) {
+                
+                 
+                     Wallet recipientWallet = walletList.get(recipientId);
+                     recipientWallet.setCurrntBal(recipientWallet.getCurrntBal() + amount);
+                     System.out.println("Transaction successful!");
+                 } 
+                 return;
+             }
+         
+         System.out.println("Recipient not found.");
+	}
+ else if (txn.getTrnxsrc() == TransactionSource.WALLET) {
+        System.out.println("Select the destination type (WALLET/BANKACCOUNT):");
+        try {
+            String destType = sc.next();
+            TransactionDestination dest = TransactionDestination.valueOf(destType);
+            txn.setTrnxDest(dest);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return;
         }
 
-        else if(txn.getTrnxsrc()==TransactionSource.WALLET)
-        	
-        	
-        {
-        	System.out.println("enter destination type");
-        	try
-        	{
-        		String desType=sc.next();
-        		TransactionDestination des=TransactionDestination.valueOf(desType);
-        		txn.setTrnxDest(des);
-        	}
-        	catch(IllegalArgumentException e)
-        	{
-        		e.printStackTrace();
-        	}
-        	if(txn.getTrnxDest()==TransactionDestination.WALLET)
-        		
-        	{
-        		double amt=sc.nextDouble();
-        		long phno=sc.nextLong();
-        		for(User user:users)
-        		{
-        			if(user.getPhoneNum()==phno)
-        			{
-        				WalletList.get(RunPaymentsApp.currUserId).setCurrntBal(WalletList.get(RunPaymentsApp.currUserId).getCurrntBal()+amt);
-        			}
-        		}
-        	}
+        if (txn.getTrnxDest() == TransactionDestination.WALLET) {
+            System.out.println("Enter amount:");
+            double amount = sc.nextDouble();
+            System.out.println("Enter recipient's user ID:");
+            int recipientId = sc.nextInt();
+            for (User user : users) {
+                if (user.getUserId() == recipientId) {
+                    Wallet senderWallet = walletList.get(RunPaymentsApp.currUserId);
+                    if (senderWallet.getCurrntBal() >= amount) {
+                        senderWallet.setCurrntBal(senderWallet.getCurrntBal() - amount);
+                        Wallet recipientWallet = walletList.get(recipientId);
+                        recipientWallet.setCurrntBal(recipientWallet.getCurrntBal() + amount);
+                        System.out.println("Transaction successful!");
+                    } else {
+                        System.out.println("Insufficient balance in wallet.");
+                    }
+                    return;
+                }
+            }
+            System.out.println("Recipient not found.");
+        } else if (txn.getTrnxDest() == TransactionDestination.BANKACCOUNT) {
+            System.out.println("Enter recipient's bank account number:");
+            String recipientbankAccountNumber = sc.next();
+            for (User user : users) {
+                if (user.getUserId() == RunPaymentsApp.currUserId) {
+                    List<BankAccount> userBankAccounts = bankAcctList;
+                    for (BankAccount account : userBankAccounts) {
+                        if (account.getBankAcctNumber().equals(recipientbankAccountNumber)) {
+                            System.out.println("Enter amount:");
+                            double amount = sc.nextDouble();
+                            if (amount <= 0) {
+                                System.out.println("Invalid amount.");
+                                return;
+                            }
+                            Wallet senderWallet = walletList.get(RunPaymentsApp.currUserId);
+                            if (senderWallet.getCurrntBal() >= amount) {
+                                senderWallet.setCurrntBal(senderWallet.getCurrntBal() - amount);
+                                account.setBalance(account.getBalance() + amount); // Increase balance in bank account
+                                System.out.println("Transaction successful!");
+                            } else {
+                                System.out.println("Insufficient balance in wallet.");
+                            }
+                            return;
+                        }
+                    }
+                    System.out.println("Recipient bank account not found.");
+                    return;
+                }
+            }
+            System.out.println("User not found.");
         }
+    }
+
+
+}
+
+}
+
+        
        
-}
-}
+
+

@@ -1,3 +1,5 @@
+package paymentsapp;
+
 
 
 public class Wallet {

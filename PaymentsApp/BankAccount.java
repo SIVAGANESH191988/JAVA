@@ -1,3 +1,5 @@
+package paymentsapp;
+
 
 
 public class BankAccount {
@@ -7,9 +9,14 @@ public class BankAccount {
 	private String bankAcctIFSC;
 	private AcctType bankAcctAcctType;
 	private String bankAcctPin;
-	
 	private int userId;
-	
+	private double Balance;
+	public double getBalance() {
+		return Balance;
+	}
+	public void setBalance(double balance) {
+		Balance = balance;
+	}
 	public int getUserId() {
 		return userId;
 	}

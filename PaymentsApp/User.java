@@ -1,3 +1,5 @@
+package paymentsapp;
+
 
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public class User extends Object{
 	private long phoneNum;
 	private String dateOfBirth;
 	private String communicationAddr;
-	
+	private Wallet wallet;
 	private int userId;
 	private String password;
 	
@@ -19,6 +21,12 @@ public class User extends Object{
 //	private int paymentsAcctId;
 	//private Wallet w;
 	
+	public Wallet getWallet() {
+		return wallet;
+	}
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
+	}
 	public List<BankAccount> getBaList() {
 		return baList;
 	}

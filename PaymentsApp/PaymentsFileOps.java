@@ -1,3 +1,5 @@
+package paymentsapp;
+
 
 
 import java.io.BufferedReader;
@@ -10,7 +12,7 @@ import java.util.List;
 
 
 public class PaymentsFileOps {
-	public final String usersFilePath = "C:\\Users\\siva ganesh\\Downloads\\files\\Payments_CLI_USers.csv";
+	public final String usersFilePath = "C:\\Users\\vipin\\OneDrive\\Documents\\Downloads\\8577VG\\Payments_CLI_USers.csv";
 	
 	public void writeUserToFile(User u) throws IOException {
 		
