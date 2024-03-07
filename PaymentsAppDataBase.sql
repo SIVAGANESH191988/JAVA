@@ -8,9 +8,9 @@ create table User(
 UserID      int not null,
 FirstName   varchar(10),
 LastName    varchar(10),
-PhoneNum    long,
+PhoneNumber   long,
 DOB         date,
-Address     varchar(50),
+CommunicationAddress     varchar(20),
 Wallet      int not null,
 Password    varchar(10),
 primary key (UserID)
@@ -32,7 +32,7 @@ create table BankAccount(
 UserID              int not null,
 BankAccountNumber   int not null,
 BankAccountName     varchar(20),
-IFSCNumber          varchar(10),
+IFSCCode          varchar(10),
 BankAccountType     varchar(10),
 BankAccountPin      varchar(10),
 primary key        (BankAccountNumber),
@@ -43,11 +43,11 @@ desc BankAccount;
 
 create table Transaction(
 UserID           int not null,
-TrnxnID          int not null,
-TrnxnAmount      double,
-TrnxnSource      varchar(20),
-TrnxDestination  varchar(20),
-primary key      (TrnxnID),
+TransactionID          int not null,
+TransactionAmount      double,
+TransactionSource      varchar(20),
+TransactionDestination  varchar(20),
+primary key      (TransactionID),
 foreign key      (UserID)
 references        User (UserID)
 );
