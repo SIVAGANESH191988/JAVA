@@ -1,4 +1,4 @@
-package paymentsapp;
+
 
 
 
@@ -140,7 +140,7 @@ public class RunPaymentsApp
 	public static void registerUser() {
 		Scanner opt = new Scanner(System.in);
 		UserOperations ops = new UserOperations();
-		
+
 		System.out.println("Please do provide user details as asked:");
 		System.out.println("First Name:");
 		String fName = opt.next();
@@ -154,22 +154,19 @@ public class RunPaymentsApp
 		String addr = opt.next();
 		System.out.println("Password:");
 		String password = opt.next();
-		
-		User u=null;
+
+		User u;
 		try {
+			u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);			
+			//usersList.add(u);
+			PaymentsAppDAO dao = new PaymentsAppDAO();
+			dao.storeUserDetails(u);
 			
-			u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-			
-			usersList.add(u);
-			Wallet wallet = new Wallet();
-			   int usrId = u.getUserId();
-			   walletList.put(usrId, wallet);
-	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-	
+		
 	}
 	
 	public static boolean loginUser() {
