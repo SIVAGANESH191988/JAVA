@@ -155,7 +155,7 @@ public class RunPaymentsApp
 		System.out.println("Password:");
 		String password = opt.next();
 
-		User u;
+		User u=null;
 		try {
 			u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);			
 			//usersList.add(u);
@@ -165,26 +165,32 @@ public class RunPaymentsApp
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		Wallet w = new Wallet();
+		int UserId = u.getUserId();
+		walletList.put(UserId, w);
 		
 	}
 	
-	public static boolean loginUser() {
+	public static void loginUser() {
 		Scanner opt = new Scanner(System.in);
 		UserOperations ops = new UserOperations();
 		
-		System.out.println("UserId:");
-		String uId = opt.next();
-		System.out.println("Password:");
-		String password = opt.next();
-		if(ops.verifyUserLogin(uId, password)) {
-			currUserId = Integer.parseInt(uId);
-			return true;
+		System.out.println("Login Through UserId");
+		System.out.println("Enter User Id :");
+		int UId = opt.nextInt();
+		System.out.println("Enter Password :");
+		String PassWord = opt.next();
+		PaymentsAppDAO db = new PaymentsAppDAO();
+		if(PaymentsAppDAO.ValidateLogin(UId, PassWord)) {
+			currUserId = UId;
+			db.ValidateLogin(UId, PassWord);
+			System.out.println("Login Success");
+			
 		}else {
-			System.out.println("Login Failed, Please Choose an Option:");
-			//break;
-			return false;
+			System.out.println("Login Failed");
 		}
+		
+		
 	}
 	
 	public static boolean validateCurrentUser() {
