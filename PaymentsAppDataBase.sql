@@ -18,7 +18,7 @@ primary key (UserID)
 
 desc User;
 
-create table Bank_Wallet_Details(
+create table Wallet_Details(
 UserID          int not null,
 CurrentBalance  double,
 primary key     (UserID),
@@ -26,7 +26,7 @@ foreign key     (UserID)
 references       User(UserID)
 );
 
-desc Bank_Wallet_Details;
+desc Wallet_Details;
 
 create table BankAccount(
 UserID              int not null,
