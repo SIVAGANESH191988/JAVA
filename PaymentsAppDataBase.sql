@@ -15,6 +15,7 @@ Wallet      double default 0.00,
 Password    varchar(10),
 primary key (UserID)
 );
+ALTER TABLE User MODIFY UserID INT NOT NULL AUTO_INCREMENT;
 
 desc User;
 
@@ -35,11 +36,10 @@ BankAccountName     varchar(20),
 IFSCCode          varchar(10),
 BankAccountType_ID     int not null,
 BankAccountPin      varchar(10),
-primary key        (BankAccountNumber),
-foreign key        (UserID)
-references          User (UserID));
-foreign key         (BankAccountType_ID)
-references           BankAccountType (BankAccountType_ID)   
+primary key        (BankAccountNumber));
+/*foreign key        (UserID)
+references          User (UserID))*/
+   
 
 desc BankAccount;
 
@@ -61,9 +61,9 @@ TransactionType         enum ("CREDIT","DEBIT"),
 Transaction_UserID     int not  null,
 Transaction_Date         datetime,
 Transaction_Account_Type    enum ("BANK_ACCOUNT","WALLET","CASH"),
-primary key      (TransactionID),
+primary key      (TransactionID)
 foreign key      (Transaction_UserID)
-references        User (UserID)
-);
+references        User (UserID));
+
 
 desc Transaction;
