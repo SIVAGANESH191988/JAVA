@@ -199,51 +199,55 @@ public class RunPaymentsApp
 			return false;
 		}
 	}
-	
-	public static void addBankAccount() {
-
-		BankAccount ba = new BankAccount();
+	public static void AddBankAcc() {
 		Scanner opt = new Scanner(System.in);
+		User u = new User();
 		
-		System.out.println("Enter Bank Account Number:");
-		String acctNum = opt.next();
-		
-		System.out.println("IFSC Code:");
-		String ifscCode = opt.next();
-		
-		System.out.println("Account Type: from List : ");
-		System.out.println("SA: SAVINGS");
-		System.out.println("CU: CURRENT");
-		System.out.println("LN: LOAN");
-		System.out.println("SL: SALARY");
+		UserOperations ops = new UserOperations();
+		System.out.println("Add Bank Account Details");
+		System.out.println("Enter The Account No : ");
+		long AccNo = opt.nextLong();
+		System.out.println("Enter the Bank Account Name :");
+		String AcctBankName = opt.next();
+		System.out.println("Enter the Bank Account Type");
+		System.out.println("Please Select The Account Type :");
+		for(AcctType type : AcctType.values()) {
+			System.out.println(" "+ type);
+		}
+		 AcctType Accty = null;
+	       
 		try {
-			String Acty = opt.next();
-			AcctType Accty = AcctType.valueOf(Acty);
-			ba.setBankAcctAcctType(Accty);
-			}catch(IllegalArgumentException e) {
-				System.out.println("Please Select the Correct Acctype : ");
-				e.printStackTrace();
-			}
-    
-		System.out.println("Account PIN:");
-//		
-		
-		String acctPin = opt.next();
-		
-		ba.setBankAcctNumber(acctNum);
-		ba.setBankAcctIFSC(ifscCode);
-		
-		ba.setBankAcctPin(acctPin);
-		ba.setUserId(currUserId);
-		ba.setBalance(0);
-		for(User u:usersList) {
-			if(u.getUserId() == currUserId) {
-				u.getBaList().add(ba);
+			System.out.println("Enter a number from 0 to 3:");
+	       int Acct_TypeId = opt.nextInt();
+
+	        if (Acct_TypeId < 0 || Acct_TypeId > 3) {
+	            System.out.println("Invalid number. Please enter a number from 0 to 3.");
+	        } else {
+	            AcctType day = AcctType.values()[Acct_TypeId];
+	            System.out.println("You selected: " + Acct_TypeId);
+	        }
+	
+		}catch(IllegalArgumentException ie) {
+			System.out.println("Please Select the Correct Acctype : ");
+			for(AcctType type : AcctType.values()) {
+				System.out.println(" "+ type);
 			}
 		}
+	        
+		System.out.println("Enter the Account IFSC Code :");
+		String AcctIFSCCode = opt.next();
+		System.out.println("Enter the Account Pin : ");
+		int AcctPin = opt.nextInt();
 		
-		bankAcctList.add(ba);
-		
+		try {
+			BankAccount b = null;
+			
+			b =opt.addBankAcc(AccNo, AcctBankName, Accty, AcctIFSCCode, AcctPin);
+			PaymentsAppDAO p = new PaymentsAppDAO();
+			PaymentsAppDAO.addBankAccountToDataBase(u, b);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void printUserBAnkAcctsList() {

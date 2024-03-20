@@ -16,32 +16,24 @@ import java.sql.SQLException;
 		public void storeUserDetails(User u) throws ClassNotFoundException, SQLException {
  Class.forName("com.mysql.cj.jdbc.Driver");
 			 
-			 Connection  con = DriverManager.getConnection( "jdbc:mysql://localhost:3306/Payments_App","root","Siyara@191988");
+			 Connection  con = DriverManager.getConnection( "jdbc:mysql://localhost:3306/Payments_CLI_Application","root","root");
 		
 			Statement stmt = con.createStatement();
-			String query = "insert into User(FirstName,LastName,PhoneNumber,DOB,CommunicationAddress,PassWord,Wallet) "
+			String query = "insert into User_Info(FirstName,LastName,PhoneNumber,DOB,CommunicationAddress,PassWord,Wallet) "
 					+ "values('"+u.getFirstName()+"','"+u.getLastName()+"','"+u.getPhoneNum()+"','"+u.getDateOfBirth()+"','"+u.getCommunicationAddr()+"','"+u.getPassword()+"',"+0+")";
 			System.out.println(query);
 			stmt.executeUpdate(query);
 		}
-		public static void addBankAccountToDataBase(BankAccount b,User u) throws SQLException, ClassNotFoundException {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_App", "root", "Siyara@191988");
-			Statement Stm = Con.createStatement();
-			String BankQuery = "insert into Bank_Account_Details (Bank_AcctNo,Bank_AcctBankName,Acct_TypeId,Bank_IFSC_Code,Bank_AcctPin,User_Id,Curr_Bank_Balance)+"
-					+ "values"+"('"+b.getBankAcctNumber()+"','"+b.getBankAcctBankName()+"','"+b.getBankAcctAcctType()+"','"+b.getBankAcctIFSC()+"','"+b.getBankAcctPin()+"','"+u.getUserId()+"','"+0+"')";
-			Stm.executeUpdate(BankQuery);
-			Stm.close();
-		}
+		
 		
 		
 		public static boolean ValidateLogin(int userid, String passWord) {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_App", "root", "Siyara@191988"
+				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root"
 						+ "");
 				Statement Stm = Con.createStatement();
-				String Query = "Select UserId,Password from User";
+				String Query = "Select UserId,Password from User_Info";
 				ResultSet res = Stm.executeQuery(Query);
 				while(res.next()) {
 					
@@ -60,9 +52,9 @@ import java.sql.SQLException;
 		public static void UsersList() {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_App", "root", "Siyara@191988");
+				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
 				Statement Stm = Con.createStatement();
-				String Query = "Select * from User";
+				String Query = "Select * from User_Info";
 				ResultSet res = Stm.executeQuery(Query);
 				while(res.next()) {
 					System.out.println(res.getInt(1)+" "+res.getString(2));
@@ -77,9 +69,9 @@ import java.sql.SQLException;
 			
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_App", "root", "Siyara@191988");
+				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
 				Statement Stm = Con.createStatement();
-				String Query = "Select UserId,Password from User";
+				String Query = "Select UserId,Password from User_Info";
 				ResultSet res = Stm.executeQuery(Query);
 				while(res.next()) {
 					
@@ -99,9 +91,9 @@ import java.sql.SQLException;
 			BankAccount ba = new BankAccount();
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_App", "root", "Siyara@191988");
+				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
 				Statement Stm = Con.createStatement();
-				String Query = "Select * from Bank_Account where UserID = '"+ba.getUserId()+"'";
+				String Query = "Select * from BankAccount_Details where UserID = '"+ba.getUserId()+"'";
 				ResultSet res = Stm.executeQuery(Query);
 				while(res.next()) {
 					System.out.println(res.getInt(1)+" "+res.getString(2));
@@ -111,6 +103,16 @@ import java.sql.SQLException;
 				
 				e.printStackTrace();
 			}
+		}
+		public static void addBankAccountToDataBase(User u, BankAccount b) throws ClassNotFoundException, SQLException {
+			// TODO Auto-generated method stub
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
+			Statement Stm = Con.createStatement();
+			String BankQuery = "insert into Bank_Account_Details (Bank_AcctNo,Bank_AcctBankName,Acct_TypeId,Bank_IFSC_Code,Bank_AcctPin,User_Id,Curr_Bank_Balance)+"
+					+ "values"+"('"+b.getBankAcctNumber()+"','"+b.getBankAcctBankName()+"','"+b.getBankAcctAcctType()+"','"+b.getBankAcctIFSC()+"','"+b.getBankAcctPin()+"','"+u.getUserId()+"','"+0+"')";
+			Stm.executeUpdate(BankQuery);
+			Stm.close();
 		}
 		
 	}
