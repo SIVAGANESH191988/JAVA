@@ -74,11 +74,10 @@ public class RunPaymentsApp
 			if(currUserId!=-1)
 			{
 				System.out.println("logout current user");
-			}else
+			}
+			else
 			{
-				if(!loginUser()) {
-					break;
-				}
+				loginUser();
 			}
 			}
 			else if(optStr.equalsIgnoreCase("3")) {
@@ -183,7 +182,7 @@ public class RunPaymentsApp
 		PaymentsAppDAO db = new PaymentsAppDAO();
 		if(PaymentsAppDAO.ValidateLogin(UId, PassWord)) {
 			currUserId = UId;
-			db.ValidateLogin(UId, PassWord);
+			
 			System.out.println("Login Success");
 			
 		}else {
