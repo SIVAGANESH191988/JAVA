@@ -1,10 +1,10 @@
-create database Payments_App;
+create database Payments_CLI_Application;
 
 show databases;
 
-use Payments_App;
+use Payments_CLI_Application;
 
-create table User(
+create table User_Info(
 UserID      int not null,
 FirstName   varchar(10),
 LastName    varchar(10),
@@ -15,45 +15,46 @@ Wallet      double default 0.00,
 Password    varchar(10),
 primary key (UserID)
 );
-ALTER TABLE User MODIFY UserID INT NOT NULL AUTO_INCREMENT;
-
-desc User;
+ALTER TABLE User_Info MODIFY UserID INT NOT NULL AUTO_INCREMENT;
+select* from user_info;
+desc User_Info;
 
 create table Wallet_Details(
 UserID          int not null,
 CurrentBalance  double,
 primary key     (UserID),
 foreign key     (UserID) 
-references       User(UserID)
+references       User_Info(UserID)
 );
 
 desc Wallet_Details;
 
-create table BankAccount(
+create table BankAccount_Details(
 UserID              int not null,
 BankAccountNumber   int not null,
 BankAccountName     varchar(20),
 IFSCCode          varchar(10),
 BankAccountType_ID     int not null,
 BankAccountPin      varchar(10),
-primary key        (BankAccountNumber));
-/*foreign key        (UserID)
-references          User (UserID))*/
-   
+primary key        (BankAccountNumber),
+foreign key        (UserID)
+references          User_Info (UserID),
+foreign key(BankAccountType_ID)
+references BankAccount_Type(BankAccountType_ID));
 
-desc BankAccount;
+desc BankAccount_Details;
 
-create table BankAccountType(
+create table BankAccount_Type(
 BankAccounType        enum ( "SAVINGS", "CURRENT","SALARY", "LOAN"),
 BankAccountType_ID     int not null,
 AccountType_Code        varchar(3),
 AccountType_Descpr     varchar(25),
 primary key           (BankAccountType_ID)
 );
+Select * from BankAccount_Details where UserID = ba.getUserId();
+desc BankAccount_Type;
 
-desc BankAccountType;
-
-create table Transaction(
+create table Transaction_Details(
 UserID                   int not null,
 TransactionID           int not null,
 TransactionAmount       double,
@@ -61,9 +62,9 @@ TransactionType         enum ("CREDIT","DEBIT"),
 Transaction_UserID     int not  null,
 Transaction_Date         datetime,
 Transaction_Account_Type    enum ("BANK_ACCOUNT","WALLET","CASH"),
-primary key      (TransactionID)
+primary key      (TransactionID),
 foreign key      (Transaction_UserID)
-references        User (UserID));
+references        User_Info (UserID));
 
 
-desc Transaction;
+desc Transaction_Details;
