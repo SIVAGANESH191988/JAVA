@@ -220,6 +220,18 @@ public class UserOperations {
 
 }
 
+	public BankAccount AddBankAcct(long accNo, String acctBankName, AcctType accty, String acctIFSCCode, int acctPin) {
+		// TODO Auto-generated method stub
+		BankAccount ba = new BankAccount();
+		ba.setBankAcctNumber(accNo);
+		ba.setBankAcctBankName(acctBankName);
+		ba.setBankAcctAcctType(accty);
+		ba.setBankAcctIFSC(acctIFSCCode);
+		ba.setBankAcctPin(acctPin);
+		return ba;
+	
+	}
+
 }
 
         

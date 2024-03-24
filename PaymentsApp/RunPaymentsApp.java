@@ -82,7 +82,7 @@ public class RunPaymentsApp
 			}
 			else if(optStr.equalsIgnoreCase("3")) {
 				if(validateCurrentUser()) {
-					addBankAccount();
+					AddBankAcc();
 				}
 			}else if(optStr.equalsIgnoreCase("4")) {
 				ops.printUserList(usersList);
@@ -165,6 +165,7 @@ public class RunPaymentsApp
 			e.printStackTrace();
 		}
 		Wallet w = new Wallet();
+		
 		int UserId = u.getUserId();
 		walletList.put(UserId, w);
 		
@@ -180,7 +181,7 @@ public class RunPaymentsApp
 		System.out.println("Enter Password :");
 		String PassWord = opt.next();
 		PaymentsAppDAO db = new PaymentsAppDAO();
-		if(PaymentsAppDAO.ValidateLogin(UId, PassWord)) {
+		if(db.ValidateLogin(UId, PassWord)) {
 			currUserId = UId;
 			
 			System.out.println("Login Success");
@@ -242,7 +243,9 @@ public class RunPaymentsApp
 		try {
 			BankAccount b = null;
 			
-			b =opt.addBankAcc(AccNo, AcctBankName, Accty, AcctIFSCCode, AcctPin);
+			
+			b =ops.AddBankAcct(AccNo, AcctBankName, Accty, AcctIFSCCode, AcctPin);
+			
 			PaymentsAppDAO p = new PaymentsAppDAO();
 			PaymentsAppDAO.addBankAccountToDataBase(u, b);
 		}catch (Exception e) {
