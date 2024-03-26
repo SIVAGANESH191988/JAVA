@@ -2,6 +2,7 @@
 
 
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,12 +90,12 @@ public class UserOperations {
 		return userBankAcctMap;
 		
 	}
-	public void deleteBankAccount(int userId, String accountNumber) {
+	public void deleteBankAccount(int userId, long accountNumber) {
 	    for (User user : users) {
 	        if (user.getUserId() == userId) {
 	            List<BankAccount> userBankAccounts = user.getBaList();
 	            for (BankAccount account : userBankAccounts) {
-	                if (account.getBankAcctNumber().equals(accountNumber)) {
+	                if (account.getBankAcctNumber()==accountNumber) {
 	                    userBankAccounts.remove(account);
 	                    System.out.println("Bank account deleted successfully.");
 	                    return;
@@ -108,17 +109,28 @@ public class UserOperations {
 	}
 
 	public void addMoneyToWallet( double amount) {
-		if(walletList.containsKey(RunPaymentsApp.currUserId )) {
-	        walletList.get(RunPaymentsApp.currUserId ).setCurrntBal(walletList.get(RunPaymentsApp.currUserId ).getCurrntBal()+amount);
-	        System.out.println(walletList.get(RunPaymentsApp.currUserId ).getCurrntBal());
+		PaymentsAppDAO db=new PaymentsAppDAO();
+		try {
+			db.addMoneyToWallet(amount);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			 
 		} 
-	}
+	
 
-	public double checkWalletBalance(){
-		return walletList.get(RunPaymentsApp.currUserId ).getCurrntBal();
+	public double checkWalletBalance(int userId){
+	    Wallet wallet = walletList.get(userId);
+	    if (wallet != null) {
+	        return wallet.getCurrntBal();
+	    } else {
+	        return 0;
+	    }
 	}
-
 	public void DoTransaction() {
 	    Scanner sc = new Scanner(System.in);
 	    Transaction txn = new Transaction();
@@ -186,12 +198,12 @@ public class UserOperations {
             System.out.println("Recipient not found.");
         } else if (txn.getTrnxDest() == TransactionDestination.BANKACCOUNT) {
             System.out.println("Enter recipient's bank account number:");
-            String recipientbankAccountNumber = sc.next();
+            long recipientbankAccountNumber = sc.nextLong();
             for (User user : users) {
                 if (user.getUserId() == RunPaymentsApp.currUserId) {
                     List<BankAccount> userBankAccounts = bankAcctList;
                     for (BankAccount account : userBankAccounts) {
-                        if (account.getBankAcctNumber().equals(recipientbankAccountNumber)) {
+                        if (account.getBankAcctNumber()==recipientbankAccountNumber) {
                             System.out.println("Enter amount:");
                             double amount = sc.nextDouble();
                             if (amount <= 0) {
