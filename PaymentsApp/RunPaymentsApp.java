@@ -2,6 +2,7 @@
 
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +89,16 @@ public class RunPaymentsApp
 				ops.printUserList(usersList);
 			}else if(optStr.equalsIgnoreCase("5")) {
 				if(currUserId != -1) {
-					ops.printCurrUserDetails(currUserId);
+					PaymentsAppDAO db = new PaymentsAppDAO();
+					try {
+						db.CurrUserId();
+					} catch (ClassNotFoundException e) {
+						
+						e.printStackTrace();
+					} catch (SQLException e) {
+						
+						e.printStackTrace();
+					}
 				}
 			}else if(optStr.equalsIgnoreCase("6")) {
 				if(currUserId != -1) {
@@ -109,7 +119,7 @@ public class RunPaymentsApp
 				if (currUserId != -1) {
 			        Scanner scanner = new Scanner(System.in);
 			        System.out.println("Enter the account number to delete:");
-			        String accountNumber = scanner.next();
+			        long accountNumber = scanner.nextLong();
 			        ops.deleteBankAccount(currUserId, accountNumber);
 			    } else {
 			        System.out.println("No user logged in.");
@@ -117,7 +127,7 @@ public class RunPaymentsApp
 			}
 			else if(optStr.equalsIgnoreCase("9")) {
 				if( currUserId!= -1) {
-					System.out.println(ops.checkWalletBalance()); 
+					System.out.println(ops.checkWalletBalance(currUserId)); 
 				}else {
 					System.out.println("Please Log in to Check Balance In Wallet");
 				}

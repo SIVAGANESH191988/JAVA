@@ -7,10 +7,10 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 	import java.sql.Statement;
-
+import java.util.*;
 	
 
-	public class PaymentsAppDAO {
+	public class PaymentsAppDAO extends Wallet {
 		
 		 
 		public void storeUserDetails(User u) throws ClassNotFoundException, SQLException {
@@ -65,28 +65,7 @@ import java.sql.SQLException;
 				e.printStackTrace();
 			} 
 		}
-		public static boolean VerifyCurrentUser(int userid,String password) {
-			
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
-				Statement Stm = Con.createStatement();
-				String Query = "Select UserId,Password from User_Info";
-				ResultSet res = Stm.executeQuery(Query);
-				while(res.next()) {
-					
-					if(res.getInt("UserId")==userid && res.getString("Password").equals(password))
-					{
-						return true;
-					}
-				}
-				Stm.close();
-			}catch (ClassNotFoundException | SQLException e) {
-				
-				e.printStackTrace();
-			}
-			return false;
-		}
+		
 		public static void BankAcctList() {
 			BankAccount ba = new BankAccount();
 			try {
@@ -104,6 +83,23 @@ import java.sql.SQLException;
 				e.printStackTrace();
 			}
 		}
+		public static void CurrUserId() throws SQLException, ClassNotFoundException
+		{
+			Scanner sc=new Scanner(System.in);
+			int userId=sc.nextInt();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
+			Statement Stm = Con.createStatement();
+			String Query="Select UserId from User_Info";
+			ResultSet res=Stm.executeQuery(Query);
+			while(res.next()) {
+				
+				if(res.getInt("UserId")==userId )
+				{
+					System.out.println(userId);
+				}
+			}
+		}
 		public static void addBankAccountToDataBase(User u, BankAccount b) throws ClassNotFoundException, SQLException {
 	
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -113,6 +109,19 @@ import java.sql.SQLException;
 					+ "values"+"('"+b.getBankAcctNumber()+"','"+b.getBankAcctBankName()+"','"+b.getBankAcctAcctType()+"','"+b.getBankAcctIFSC()+"','"+b.getBankAcctPin()+"','"+u.getUserId()+"','"+0+"')";
 			Stm.executeUpdate(BankQuery);
 			Stm.close();
+		}
+		public void addMoneyToWallet( double amount) throws ClassNotFoundException, SQLException
+		{
+			Wallet w=new Wallet();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Payments_CLI_Application", "root", "root");
+			Statement Stm = Con.createStatement();
+
+			
+			String Query = "Update user_info SET Wallet= wallet+'"+amount+"'Where UserID='"+RunPaymentsApp.currUserId+"'";
+			
+				int res=Stm.executeUpdate(Query);
+		    Stm.close();
 		}
 		
 	}
