@@ -37,8 +37,10 @@ public class RunPaymentsApp
 			System.out.println("6. List All User Bank Accounts");
 			System.out.println("7. Add Money To Wallet");
 			System.out.println("8. Delet the BankAccount");
-			System.out.println("9. list User Wallet Balances");
+			System.out.println("9.  User Wallet Balance");
+			
 			System.out.println("10. Do a Transaction");
+			System.out.println("11.  User Bank Balance");
 			System.out.println("-1. Quit/ Logout");
 			System.out.println("Choose an Option:");
 			
@@ -67,6 +69,7 @@ public class RunPaymentsApp
 			System.out.println("User selected "+selectedOption);
 			UserOperations ops = new UserOperations();
 			if(optStr.equalsIgnoreCase("1")) {
+				
 				registerUser();
 			}else if(optStr.equalsIgnoreCase("2")) {
 			if(currUserId!=-1)
@@ -124,6 +127,10 @@ public class RunPaymentsApp
 			else if(optStr.equalsIgnoreCase("10")) {
 				UserOperations u1=new UserOperations();
 				u1.DoTransaction();
+			}
+			else if(optStr.equalsIgnoreCase("11")) {
+				UserOperations u1=new UserOperations();
+				System.out.println(u1.checkBankBalance(currUserId));
 			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				currUserId=-1;

@@ -53,7 +53,7 @@ public class BankAccount {
 	}
 	
 	public String  printBankAccountDetails() {
-		return "[" +this.bankAcctNumber+","+this.bankAcctIFSC+ "]";
+		return "[" +this.bankAcctNumber+","+this.bankAcctIFSC+this.Balance+","+ "]";
 	}
 	
 }
