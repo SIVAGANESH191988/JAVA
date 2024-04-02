@@ -1,7 +1,5 @@
 
 
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,10 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class PaymentsFileOps {
-	public final String usersFilePath = "C:\\Users\\DT-DELL-83\\Desktop\\TMF8577\\Payments_CLI_USers.csv";
+	public final String usersFilePath = "D:\\siva\\Payments_CLI_USers.csv";
 	
 	public void writeUserToFile(User u) throws IOException {
 		

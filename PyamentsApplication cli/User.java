@@ -1,91 +1,88 @@
 
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class User extends Object{
 	
-	private String FirstName;
-	private String LastName;
-	private long   PhoneNum;
-	private String DateOfBirth;
-	private String CommunicationAddress;
-	private Wallet Wallet;
-	private int    UserId;
-	private String Password;
+	private String firstName;
+	private String lastName;
+	private long phoneNum;
+	private String dateOfBirth;
+	private String communicationAddr;
+	private Wallet wallet;
+	private int userId;
+	private String password;
 	
-	private List<BankAccount> BankAccList = new ArrayList<BankAccount>();
+	private List<BankAccount> baList = new ArrayList<BankAccount>();
 	
 //	private int paymentsAcctId;
 	//private Wallet w;
 	
 	public Wallet getWallet() {
-		return Wallet;
+		return wallet;
 	}
 	public void setWallet(Wallet wallet) {
-		this.Wallet = wallet;
+		this.wallet = wallet;
 	}
-	public List<BankAccount> getBankAccList() {
-		return BankAccList;
+	public List<BankAccount> getBaList() {
+		return baList;
 	}
-	public void setBaList(List<BankAccount> BankAccList) {
-		this.BankAccList = BankAccList;
+	public void setBaList(List<BankAccount> baList) {
+		this.baList = baList;
 	}
 	public String getFirstName() {
-		return FirstName;
+		return firstName;
 	}
-	public void setFirstName(String FirstName) {
-		this.FirstName = FirstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	public String getLastName() {
-		return LastName;
+		return lastName;
 	}
-	public void setLastName(String LastName) {
-		this.LastName = LastName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public long getPhoneNum() {
-		return PhoneNum;
+		return phoneNum;
 	}
-	public void setPhoneNum(long PhoneNum) {
-		this.PhoneNum = PhoneNum;
+	public void setPhoneNum(long phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 	public String getDateOfBirth() {
-		return DateOfBirth;
+		return dateOfBirth;
 	}
-	public void setDateOfBirth(String DateOfBirth) {
-		this.DateOfBirth = DateOfBirth;
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
-	public String getCommunicationAddress() {
-		return CommunicationAddress;
+	public String getCommunicationAddr() {
+		return communicationAddr;
 	}
-	public void setCommunicationAddr(String CommunicationAddress) {
-		this.CommunicationAddress = CommunicationAddress;
+	public void setCommunicationAddr(String communicationAddr) {
+		this.communicationAddr = communicationAddr;
 	}
 	public int getUserId() {
-		return UserId;
+		return userId;
 	}
-	public void setUserId(int UserId) {
-		this.UserId = UserId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getPassword() {
-		return Password;
+		return password;
 	}
-	public void setPassword(String Password) {
-		this.Password = Password;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 //	Account[]
 //	BankAccount[]
 	@Override
 	public String toString() {
-		return this.UserId+":"+ this.FirstName +":"+ this.LastName + ":"+this.PhoneNum+":"+this.DateOfBirth+":"+this.CommunicationAddress;
+		return this.userId+":"+ this.firstName +":"+ this.lastName + ":"+this.phoneNum+":"+this.dateOfBirth+":"+this.communicationAddr;
 	}
 	
 	public String userToFileRecord() {
-		return this.UserId+","+ this.FirstName +","+ this.LastName + ","+this.PhoneNum+","+this.DateOfBirth+","+this.CommunicationAddress+"\n";
+		return this.userId+","+ this.firstName +","+ this.lastName + ","+this.phoneNum+","+this.dateOfBirth+","+this.communicationAddr+"\n";
 	}
 
 	

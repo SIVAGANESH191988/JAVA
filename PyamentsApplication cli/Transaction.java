@@ -1,6 +1,4 @@
 
-
-
 public class Transaction {
 private int trnxnId;
 private double trnxnAmt;

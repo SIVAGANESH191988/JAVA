@@ -1,12 +1,10 @@
 
 
-
-
 public class Wallet {
     private double currntBal;
+
 	private int userId;
 	private double limit;
-	
 	public double getCurrntBal() {
 		return currntBal;
 	}
