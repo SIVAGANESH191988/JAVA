@@ -10,7 +10,7 @@ public class UserOperations {
 	List<User> users = RunPaymentsApp.usersList;
 	List<BankAccount> bankAcctList =RunPaymentsApp.bankAcctList;
 	  private static Map<Integer, Wallet> WalletList = RunPaymentsApp.userWallets;
-	  List <Transaction> t1=new ArrayList<Transaction>();
+	 public static  List <Transaction> t1=new ArrayList<Transaction>();
 
 	 // public static Map<Integer, List<Transaction>> TransactionList =new HashMap<>() ;
 //	 public static List <Transaction> t1=new ArrayList<Transaction>();
@@ -185,23 +185,25 @@ public class UserOperations {
 		return userTransMap;
 		
 	}
-	public void transactionlist(double amount,TransactionSource Trnxsrc,TransactionDestination TrnxDest)
+	public void transactionlist(double amount,TransactionSource Trnxsrc,TransactionDestination TrnxDest,Transaction t2)
 	{
-		 Transaction txn = new Transaction();
+		
+//		 Transaction txn = new Transaction();
 		 int a= (int)(Math.random() * 1000) + 100;
 
          // Create transaction object and set properties
-         txn.setTrnxnId(a);
-         txn.setTrnxnAmt(amount);
-         List <Transaction> t1=new ArrayList<Transaction>();
-    	t1.add(txn);
+         t2.setTrnxnId(a);
+        t2.setTrnxnAmt(amount);
+//         List <Transaction> t1=new ArrayList<Transaction>();
+    	t1.add(t2);
+    	System.out.println(t1);
     	
 	}
    
 	public void DoTransaction() {
-		
+		Transaction txn = new Transaction();
 	    Scanner sc = new Scanner(System.in);
-	    Transaction txn = new Transaction();
+	   
 	    System.out.println("Enter amount:");
 	    double amount=sc.nextDouble();
 
@@ -232,7 +234,7 @@ public class UserOperations {
 //	         List <Transaction> t1=new ArrayList<Transaction>();
 //	    	t1.add(txn);
 //	    	TransactionList.put(RunPaymentsApp.currUserId,t1 );
-	    	transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest());
+	    	transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest(),txn);
 	    	 getUserTransactionList(RunPaymentsApp.currUserId);
 	    	}
 	    }
@@ -260,7 +262,7 @@ public class UserOperations {
 	        
 	        System.out.println("Transaction successful!");
 	
-	        transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest());
+	        transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest(),txn);
          // Create transaction object and set properties
        
             }
@@ -275,7 +277,7 @@ public class UserOperations {
    	            if (user.getUserId() == recipientId) {
    		 addMoneyToWallet(RunPaymentsApp.currUserId, -amount);
    		 addMoneyBank(recipientacc,amount);
-         transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest());
+         transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest(),txn);
    	            }
    		  }
    	 }
@@ -290,7 +292,7 @@ public class UserOperations {
    	            if (user.getUserId() == recipientId) {
    		 addMoneyToWallet(RunPaymentsApp.currUserId, -amount);
    		 addMoneyBank(recipientacc,amount);
-         transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest());
+         transactionlist(amount, txn.getTrnxsrc(), txn.getTrnxDest(),txn);
    	            }
    		  }
  }

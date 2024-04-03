@@ -136,7 +136,7 @@ public class RunPaymentsApp
 			}
 			else if(optStr.equalsIgnoreCase("12")) {
 				UserOperations u1=new UserOperations();
-				u1.getUserTransactionList(currUserId);
+				
 			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				currUserId=-1;
