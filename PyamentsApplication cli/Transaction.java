@@ -6,11 +6,12 @@ private TransactionSource Trnxsrc;
 private long Srcnumber;
 private TransactionDestination TrnxDest;
 private long Destnumber;
-public int getTrnxnId() {
-	return trnxnId;
-}
+
 public void setTrnxnId(int trnxnId) {
 	this.trnxnId = trnxnId;
+}
+public int getTrnxnId() {
+	return trnxnId;
 }
 public double getTrnxnAmt() {
 	return trnxnAmt;
@@ -42,5 +43,7 @@ public long getDestnumber() {
 public void setDestnumber(long destnumber) {
 	Destnumber = destnumber;
 }
-
+public String toString() {
+	return this.trnxnId+":"+ this.trnxnAmt +":"+ this.Trnxsrc + ":"+this.TrnxDest+"";
+}
 }

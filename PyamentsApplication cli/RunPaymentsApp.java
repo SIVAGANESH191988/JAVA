@@ -19,7 +19,8 @@ public class RunPaymentsApp
 	public static int currUserId = -1;
  
    
-	 private static Map<Integer, Wallet> userWallets = new HashMap<>();
+	 public static Map<Integer, Wallet> userWallets = new HashMap<>();
+	 public static Map<Integer, List<Transaction>> TransactionsList = new HashMap<>();
 	public static void main(String[] args) {
 		
 		int selectedOption=0;		
@@ -41,6 +42,7 @@ public class RunPaymentsApp
 			
 			System.out.println("10. Do a Transaction");
 			System.out.println("11.  User Bank Balance");
+			System.out.println("12.  TransactionList");
 			System.out.println("-1. Quit/ Logout");
 			System.out.println("Choose an Option:");
 			
@@ -111,7 +113,7 @@ public class RunPaymentsApp
 				if (currUserId != -1) {
 			        Scanner scanner = new Scanner(System.in);
 			        System.out.println("Enter the account number to delete:");
-			        String accountNumber = scanner.next();
+			        Long accountNumber = scanner.nextLong();
 			        ops.deleteBankAccount(currUserId, accountNumber);
 			    } else {
 			        System.out.println("No user logged in.");
@@ -130,7 +132,11 @@ public class RunPaymentsApp
 			}
 			else if(optStr.equalsIgnoreCase("11")) {
 				UserOperations u1=new UserOperations();
-				System.out.println(u1.checkBankBalance(currUserId));
+				u1.checkBankBalance(currUserId);
+			}
+			else if(optStr.equalsIgnoreCase("12")) {
+				UserOperations u1=new UserOperations();
+				u1.getUserTransactionList(currUserId);
 			}
 			else if(optStr.equalsIgnoreCase("-1")) {
 				currUserId=-1;
@@ -204,7 +210,7 @@ public class RunPaymentsApp
 		Scanner opt = new Scanner(System.in);
 		
 		System.out.println("Enter Bank Account Number:");
-		String acctNum = opt.next();
+		Long acctNum = opt.nextLong();
 		
 		System.out.println("IFSC Code:");
 		String ifscCode = opt.next();

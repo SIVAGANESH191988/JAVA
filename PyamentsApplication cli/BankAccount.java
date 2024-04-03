@@ -2,7 +2,7 @@
 
 public class BankAccount {
 	
-	private String bankAcctNumber;
+	private Long bankAcctNumber;
 	private String bankAcctBankName;
 	private String bankAcctIFSC;
 	private AcctType bankAcctAcctType;
@@ -21,10 +21,10 @@ public class BankAccount {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public String getBankAcctNumber() {
+	public Long getBankAcctNumber() {
 		return bankAcctNumber;
 	}
-	public void setBankAcctNumber(String bankAcctNumber) {
+	public void setBankAcctNumber(Long bankAcctNumber) {
 		this.bankAcctNumber = bankAcctNumber;
 	}
 	public String getBankAcctBankName() {
