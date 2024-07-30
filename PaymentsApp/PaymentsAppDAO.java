@@ -2,18 +2,18 @@
 
 	
 
-	import java.sql.Connection;
-	import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-	import java.sql.Statement;
+import java.sql.Statement;
 import java.util.*;
 	
 
-	public class PaymentsAppDAO extends Wallet {
+public class PaymentsAppDAO extends Wallet {
 		
 		 
-		public void storeUserDetails(User u) throws ClassNotFoundException, SQLException {
+public void storeUserDetails(User u) throws ClassNotFoundException, SQLException {
  Class.forName("com.mysql.cj.jdbc.Driver");
 			 
 			 Connection  con = DriverManager.getConnection( "jdbc:mysql://localhost:3306/Payments_CLI_Application","root","root");
